@@ -1,3 +1,61 @@
+# HLTV 选手数据采集与结构化处理流程
+
+## 工作流程概述
+
+1. **批量自动打开选手页面**：根据 players.csv 自动用 Edge 打开所有选手的 HLTV 页面。
+2. **手动保存页面 HTML**：在浏览器中用自制插件一键保存页面 body HTML 到同一文件夹（如 E:/下载）。
+3. **批量结构化数据**：用数据爬虫（data_processor.py）批量处理保存下来的 HTML，生成结构化数据。
+
+---
+
+## 操作步骤
+
+### 1️⃣ 批量自动打开所有选手页面
+
+在 `data_processor_test` 目录下运行：
+
+```bash
+python batch_workflow.py
+```
+
+脚本会自动读取 `players.csv`，依次用 Edge 打开每个选手页面。
+
+### 2️⃣ 手动保存页面 body HTML
+
+1. 在浏览器中切换到每个打开的页面。
+2. 点击自制插件按钮（HLTV Body Saver），将页面 body HTML 保存到同一文件夹（如 E:/下载）。
+	- 插件会自动用 url 末尾命名文件。
+
+### 3️⃣ 批量结构化数据
+
+继续运行 `batch_workflow.py`，或单独运行：
+
+```bash
+python data_processor.py "E:/下载/xxx.html"
+```
+
+脚本会自动处理所有 HTML 文件，输出到 `processed_data/选手名/` 目录下。
+
+---
+
+## 相关文件说明
+
+- `players.csv`：选手列表，包含 name 和 HLTV 页面 url。
+- `batch_workflow.py`：自动化批量打开页面、批量处理 HTML 的主流程脚本。
+- `data_processor.py`：结构化处理单个 HTML 文件，生成 csv/json。
+- `hltv_body_saver/`：浏览器插件源码，点击按钮即可保存页面 body HTML。
+
+---
+
+## 注意事项
+
+- 插件保存的 HTML 文件建议统一放在 E:/下载 目录，便于批量处理。
+- 插件和脚本无需 Playwright profile，所有操作均在真实浏览器和人工插件中完成。
+- 如需调整 HTML 保存目录或文件名规则，可修改插件或 batch_workflow.py。
+
+---
+
+如有问题可随时反馈。
 #  **数据平权：大众CS选手实力评级 EquiRating**
 
 ## 一、项目基本信息

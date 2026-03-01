@@ -1,0 +1,12 @@
+﻿metric,variant,value,unit,grade,tooltip_title,tooltip_desc
+Round swing,single,+3.40,%,Good,,
+DPR,traditional,0.66,,Okay,DPR,Deaths per round
+DPR,ecoAdjusted,0.72,,Okay,DPR (eco-adjusted),Deaths per round. Adjusted to compensate for economy.
+KAST,traditional,77.6,%,Good,KAST,"Percentage of rounds in which the player either had a kill, assist, survived or was traded"
+KAST,ecoAdjusted,74.3,%,Good,KAST (eco-adjusted),"Percentage of rounds in which the player either had a kill, assist, survived or was traded. Adjusted to compensate for economy."
+Multi-kill,traditional,25.5,%,Good,Multi-kill,The percentage of rounds where this player posted 2 or more kills
+MK rating,ecoAdjusted,1.43,,Good,Multi-kill rating,Rating of the player's ability to post two or more kills during a round. Adjusted to compensate for economy.
+ADR,traditional,97.1,,Good,ADR,Average damage per round
+ADR,ecoAdjusted,95.0,,Good,ADR (eco-adjusted),Average damage per round. Adjusted to compensate for economy.
+KPR,traditional,0.93,,Good,KPR,Kills per round
+KPR,ecoAdjusted,0.93,,Good,KPR (eco-adjusted),Kills per round. Adjusted to compensate for economy.

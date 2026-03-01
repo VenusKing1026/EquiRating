@@ -1,0 +1,145 @@
+from bs4 import BeautifulSoup
+import csv
+import argparse
+from datetime import datetime
+from pathlib import Path
+
+# ==========================
+# 1️⃣ 修改为你的 HTML 文件路径
+# ==========================
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BASE_DIR / "data"
+LEGACY_MAP_CSV = BASE_DIR.parent / "data_processor_test" / "players.csv"
+
+BASE_URL = "https://www.hltv.org"
+
+
+def build_parser():
+    parser = argparse.ArgumentParser(description="Extract player URLs from TOP20 HTML")
+    parser.add_argument("--year", default=str(datetime.now().year), help="Data year, e.g. 2026")
+    parser.add_argument(
+        "--legacy-map-csv",
+        default=str(LEGACY_MAP_CSV),
+        help="Legacy CSV that contains name->url mapping (from old get_top)",
+    )
+    return parser
+
+
+def get_year_paths(year: str):
+    year_dir = DATA_DIR / str(year)
+    return {
+        "year_dir": year_dir,
+        "html_file": year_dir / "raw_html" / "TOP20.html",
+        "players_csv": year_dir / "players.csv",
+    }
+
+
+def normalize_name(name: str) -> str:
+    return (name or "").strip().lower()
+
+
+def load_url_map(csv_path):
+    url_map = {}
+    p = Path(csv_path)
+    if not p.exists():
+        print(f"⚠️ 未找到旧映射表: {p}，url 将留空")
+        return url_map
+
+    with open(p, "r", encoding="utf-8-sig", newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            name = normalize_name(row.get("name", ""))
+            url = (row.get("url", "") or "").strip()
+            if name and url and name not in url_map:
+                url_map[name] = url
+
+    print(f"ℹ️ 已加载旧映射 {len(url_map)} 条: {p}")
+    return url_map
+
+
+def parse_html(file_path, url_map):
+    with open(file_path, "r", encoding="utf-8") as f:
+        soup = BeautifulSoup(f, "html.parser")
+
+    players = []
+    rows = soup.find_all("tr")
+
+    order = 1
+    used_new_layout = False
+
+    for row in rows:
+        # 旧结构：playerCol（历史版本）
+        player_cell = row.find("td", class_="playerCol")
+
+        if player_cell:
+            link = player_cell.find("a", href=True)
+            if not link:
+                continue
+
+            name = link.text.strip()
+            relative_url = link["href"]
+            full_url = BASE_URL + relative_url
+
+            players.append({
+                "order": order,
+                "name": name,
+                "url": full_url
+            })
+            order += 1
+            continue
+
+        # 新结构：top20-year-*（当年榜单）
+        nick_el = row.select_one("b.top20-year-playernick")
+        link = row.select_one("a.top20-year-playername-wrapper[href]")
+        if not nick_el or not link:
+            continue
+
+        used_new_layout = True
+        name = nick_el.get_text(strip=True)
+        mapped_url = url_map.get(normalize_name(name), "")
+
+        pos_el = row.select_one("td.top20-th-position b")
+        if pos_el:
+            pos_text = pos_el.get_text(strip=True).replace("#", "")
+            if pos_text.isdigit():
+                order = int(pos_text)
+
+        players.append({
+            "order": order,
+            "name": name,
+            "url": mapped_url
+        })
+        order += 1
+
+    if used_new_layout:
+        empty_cnt = sum(1 for p in players if not p.get("url"))
+        print(f"ℹ️ 检测到 top20-year 新结构，按旧映射回填 url，留空 {empty_cnt} 条")
+
+    return players
+
+
+def save_to_csv(players, filename):
+    Path(filename).parent.mkdir(parents=True, exist_ok=True)
+    with open(filename, "w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=["order", "name", "url"])
+        writer.writeheader()
+        writer.writerows(players)
+
+    print(f"✅ 成功解析 {len(players)} 名选手")
+    print(f"📁 已保存为 {filename}")
+
+
+def main():
+    args = build_parser().parse_args()
+    paths = get_year_paths(args.year)
+    url_map = load_url_map(args.legacy_map_csv)
+    players = parse_html(paths["html_file"], url_map)
+
+    if not players:
+        print("❌ 未找到选手")
+    else:
+        save_to_csv(players, paths["players_csv"])
+
+
+if __name__ == "__main__":
+    main()

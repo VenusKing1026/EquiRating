@@ -1,0 +1,101 @@
+[
+  {
+    "metric":"Round swing",
+    "variant":"single",
+    "value":"+3.40",
+    "unit":"%",
+    "grade":"Good",
+    "tooltip_title":null,
+    "tooltip_desc":null
+  },
+  {
+    "metric":"DPR",
+    "variant":"traditional",
+    "value":"0.66",
+    "unit":null,
+    "grade":"Okay",
+    "tooltip_title":"DPR",
+    "tooltip_desc":"Deaths per round"
+  },
+  {
+    "metric":"DPR",
+    "variant":"ecoAdjusted",
+    "value":"0.72",
+    "unit":null,
+    "grade":"Okay",
+    "tooltip_title":"DPR (eco-adjusted)",
+    "tooltip_desc":"Deaths per round. Adjusted to compensate for economy."
+  },
+  {
+    "metric":"KAST",
+    "variant":"traditional",
+    "value":"77.6",
+    "unit":"%",
+    "grade":"Good",
+    "tooltip_title":"KAST",
+    "tooltip_desc":"Percentage of rounds in which the player either had a kill, assist, survived or was traded"
+  },
+  {
+    "metric":"KAST",
+    "variant":"ecoAdjusted",
+    "value":"74.3",
+    "unit":"%",
+    "grade":"Good",
+    "tooltip_title":"KAST (eco-adjusted)",
+    "tooltip_desc":"Percentage of rounds in which the player either had a kill, assist, survived or was traded. Adjusted to compensate for economy."
+  },
+  {
+    "metric":"Multi-kill",
+    "variant":"traditional",
+    "value":"25.5",
+    "unit":"%",
+    "grade":"Good",
+    "tooltip_title":"Multi-kill",
+    "tooltip_desc":"The percentage of rounds where this player posted 2 or more kills"
+  },
+  {
+    "metric":"MK rating",
+    "variant":"ecoAdjusted",
+    "value":"1.43",
+    "unit":null,
+    "grade":"Good",
+    "tooltip_title":"Multi-kill rating",
+    "tooltip_desc":"Rating of the player's ability to post two or more kills during a round. Adjusted to compensate for economy."
+  },
+  {
+    "metric":"ADR",
+    "variant":"traditional",
+    "value":"97.1",
+    "unit":null,
+    "grade":"Good",
+    "tooltip_title":"ADR",
+    "tooltip_desc":"Average damage per round"
+  },
+  {
+    "metric":"ADR",
+    "variant":"ecoAdjusted",
+    "value":"95.0",
+    "unit":null,
+    "grade":"Good",
+    "tooltip_title":"ADR (eco-adjusted)",
+    "tooltip_desc":"Average damage per round. Adjusted to compensate for economy."
+  },
+  {
+    "metric":"KPR",
+    "variant":"traditional",
+    "value":"0.93",
+    "unit":null,
+    "grade":"Good",
+    "tooltip_title":"KPR",
+    "tooltip_desc":"Kills per round"
+  },
+  {
+    "metric":"KPR",
+    "variant":"ecoAdjusted",
+    "value":"0.93",
+    "unit":null,
+    "grade":"Good",
+    "tooltip_title":"KPR (eco-adjusted)",
+    "tooltip_desc":"Kills per round. Adjusted to compensate for economy."
+  }
+]

@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "HLTV Body Saver",
+  "version": "1.0",
+  "description": "Save document.body.outerHTML as file",
+  "permissions": ["activeTab", "downloads", "scripting"],
+  "action": {
+    "default_title": "Save Body"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
