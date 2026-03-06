@@ -46,7 +46,8 @@ def open_all_players(csv_path, raw_html_dir, sleep_sec=2):
             print(f"Skipping {row['name']} (url 为空)")
             continue
         print(f"Opening {row['name']} ...")
-        subprocess.run(["cmd", "/c", "start", "msedge", row["url"]], check=False)
+        # 使用 shell=True 并把 URL 放在引号中以正确处理 & 符号
+        subprocess.run(f'start msedge "{row["url"]}"', shell=True, check=False)
         time.sleep(sleep_sec)
     print(f"请在浏览器中用插件手动保存所有页面 body HTML 到目录: {raw_html_dir}")
 

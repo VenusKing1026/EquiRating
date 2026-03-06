@@ -1,12 +1,12 @@
 ﻿metric,variant,value,unit,grade
-Round swing,single,-,,N/A
-DPR,traditional,0.68,,Okay
-DPR,ecoAdjusted,,,Okay
-KAST,traditional,71.8,%,Okay
-KAST,ecoAdjusted,,,Okay
-Multi-kill,traditional,-,,N/A
-MK rating,ecoAdjusted,,,N/A
-ADR,traditional,80.5,,Okay
-ADR,ecoAdjusted,,,Okay
+Round swing,single,+0.45,%,Okay
+DPR,traditional,0.69,,Okay
+DPR,ecoAdjusted,0.71,,Okay
+KAST,traditional,72.8,%,Okay
+KAST,ecoAdjusted,70.3,%,Okay
+Multi-kill,traditional,17.5,%,Okay
+MK rating,ecoAdjusted,1.11,,Okay
+ADR,traditional,82.1,,Good
+ADR,ecoAdjusted,81.3,,Good
 KPR,traditional,0.70,,Okay
-KPR,ecoAdjusted,,,Okay
+KPR,ecoAdjusted,0.70,,Okay

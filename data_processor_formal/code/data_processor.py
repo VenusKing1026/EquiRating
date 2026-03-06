@@ -181,32 +181,37 @@ if rb:
         trad_data = first(b.xpath(f'.//*[ {cls("player-summary-stat-box-data")} and {cls("traditionalData")} ]'))
         eco_data  = first(b.xpath(f'.//*[ {cls("player-summary-stat-box-data")} and {cls("ecoAdjustedData")} ]'))
 
-        trad_val, trad_unit = parse_value_text(trad_data)
-        eco_val, eco_unit   = parse_value_text(eco_data)
-
         trad_text = first(b.xpath(f'.//*[ {cls("player-summary-stat-box-data-text")} and {cls("traditionalData")} ]'))
         eco_text  = first(b.xpath(f'.//*[ {cls("player-summary-stat-box-data-text")} and {cls("ecoAdjustedData")} ]'))
 
         trad_metric = direct_text(trad_text)
-        eco_metric  = direct_text(eco_text) or trad_metric
+        eco_metric  = direct_text(eco_text)
 
-        if trad_metric:
-            right_out.append({
-                "metric": trad_metric,
-                "variant": "traditional",
-                "value": trad_val,
-                "unit": trad_unit,
-                "grade": grade
-            })
+        # 处理 traditional 数据
+        if trad_metric and trad_data is not None:
+            trad_val, trad_unit = parse_value_text(trad_data)
+            # 只在值不是 "-" 或空时添加
+            if trad_val and trad_val != "-":
+                right_out.append({
+                    "metric": trad_metric,
+                    "variant": "traditional",
+                    "value": trad_val,
+                    "unit": trad_unit,
+                    "grade": grade
+                })
 
-        if eco_metric:
-            right_out.append({
-                "metric": eco_metric,
-                "variant": "ecoAdjusted",
-                "value": eco_val,
-                "unit": eco_unit,
-                "grade": grade
-            })
+        # 处理 ecoAdjusted 数据（仅当实际存在 data 元素时）
+        if eco_metric and eco_data is not None:
+            eco_val, eco_unit = parse_value_text(eco_data)
+            # 只在值不是 "-" 或空时添加
+            if eco_val and eco_val != "-":
+                right_out.append({
+                    "metric": eco_metric,
+                    "variant": "ecoAdjusted",
+                    "value": eco_val,
+                    "unit": eco_unit,
+                    "grade": grade
+                })
 
 if right_out:
     df_right = pd.DataFrame(right_out)

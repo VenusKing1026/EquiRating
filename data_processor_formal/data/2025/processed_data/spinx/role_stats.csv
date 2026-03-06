@@ -1,41 +1,41 @@
 ﻿metric,Both,CT,T
-1on1 win percentage,65.6%,59.0%,72.5%
-Assisted kills percentage,20.9%,22.3%,19.2%
-Assists per round,0.14,0.16,0.12
-Attacks per round,2.68,2.97,2.39
-Clutch points per round,0.03,0.02,0.03
-Damage per kill,107,106,107
-Damage per round,78.0,82.5,73.5
-Damage per round win,99.7,103.5,95.6
-Flash assists per round,0.02,0.02,0.03
-Flashes thrown per round,0.37,0.28,0.46
-Kills per round,0.73,0.77,0.69
-Kills per round win,0.99,1.03,0.94
-Last alive percentage,10.6%,8.3%,12.8%
-Opening attempts,18.7%,20.2%,17.2%
-Opening deaths per round,0.09,0.08,0.09
-Opening deaths traded percentage,25.2%,22.5%,27.5%
-Opening kills per round,0.10,0.12,0.08
-Opening success,53.6%,60.1%,46.1%
-Pistol round rating,1.11,1.14,1.07
-Rating 2.0,1.14,1.16,1.11
-Rounds with a kill,48.9%,51.5%,46.3%
-Rounds with a multi-kill,18.2%,19.7%,16.7%
-Rounds with sniper kills percentage,1.0%,1.5%,0.4%
-Saved by teammate per round,0.09,0.08,0.10
-Saved teammate per round,0.11,0.08,0.13
-Saves per round loss,8.8%,14.7%,3.4%
-Sniper kills per round,0.01,0.02,0.00
-Sniper kills percentage,1.8%,2.7%,0.7%
-Sniper multi-kill rounds,0.003,0.005,0.0007
-Sniper opening kills per round,0.002,0.004,0.0002
-Support rounds,18.7%,21.4%,16.1%
-Time alive per round,1m 9s,1m 8s,1m 9s
-Time opponent flashed per round,2.34,2.32,2.35
-Trade kills per round,0.14,0.12,0.17
-Trade kills percentage,19.5%,15.3%,24.2%
-Traded deaths per round,0.13,0.11,0.14
-Traded deaths percentage,19.7%,18.8%,20.6%
-Utility damage per round,3.74,4.73,2.75
-Utility kills per 100 rounds,0.75,0.87,0.63
-Win% after opening kill,74.1%,72.1%,77.1%
+1on1 win percentage,42.9%,41.7%,45.5%
+Assisted kills percentage,27.9%,30.9%,24.5%
+Assists per round,0.19,0.23,0.16
+Attacks per round,2.73,3.07,2.38
+Clutch points per round,0.02,0.009,0.02
+Damage per kill,108,109,108
+Damage per round,78.3,81.8,74.7
+Damage per round win,101.8,103.6,99.9
+Flash assists per round,0.02,0.03,0.01
+Flashes thrown per round,0.29,0.33,0.26
+Kills per round,0.72,0.75,0.69
+Kills per round win,0.99,1.02,0.95
+Last alive percentage,9.8%,8.3%,11.3%
+Opening attempts,18.3%,18.8%,17.8%
+Opening deaths per round,0.09,0.08,0.10
+Opening deaths traded percentage,28.4%,23.8%,32.1%
+Opening kills per round,0.10,0.11,0.08
+Opening success,52.2%,58.3%,45.6%
+Pistol round rating,1.10,1.13,1.07
+Rating 3.0,1.11,1.08,1.14
+Rounds with a kill,48.7%,51.2%,46.2%
+Rounds with a multi-kill,17.5%,18.3%,16.6%
+Rounds with sniper kills percentage,0.3%,0.3%,0.4%
+Saved by teammate per round,0.11,0.10,0.12
+Saved teammate per round,0.12,0.08,0.16
+Saves per round loss,10.6%,17.6%,4.2%
+Sniper kills per round,0.00,0.00,0.00
+Sniper kills percentage,0.5%,0.5%,0.6%
+Sniper multi-kill rounds,0.0005,0.0005,0.0005
+Sniper opening kills per round,0.0002,0.0,0.0005
+Support rounds,20.8%,24.0%,17.6%
+Time alive per round,1m 12s,1m 12s,1m 13s
+Time opponent flashed per round,1.92,2.19,1.58
+Trade kills per round,0.16,0.13,0.19
+Trade kills percentage,21.9%,16.8%,27.6%
+Traded deaths per round,0.14,0.12,0.15
+Traded deaths percentage,21.4%,20.4%,22.3%
+Utility damage per round,4.88,6.02,3.72
+Utility kills per 100 rounds,0.91,1.12,0.69
+Win% after opening kill,80.4%,79.9%,81.1%
