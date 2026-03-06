@@ -1,0 +1,2 @@
+model,features,pairwise_mae,pairwise_r2,pairwise_accuracy,spearman,kendall_tau,top5_overlap,top1_accuracy
+V3,18,0.6536171534917534,0.4628861619966652,0.7105263157894737,0.5912781954887217,0.44947368421052636,0.7,0.5
