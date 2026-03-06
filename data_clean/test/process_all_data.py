@@ -27,7 +27,7 @@ def time_to_seconds(time_str):
 
 
 def convert_to_float(value):
-    """将值转换为float，处理百分号"""
+    """将值转换为 float，处理百分号"""
     if pd.isna(value) or value == '':
         return np.nan
     
@@ -37,7 +37,7 @@ def convert_to_float(value):
     if '%' in value_str:
         value_str = value_str.replace('%', '')
     
-    # 移除+号
+    # 移除 + 号
     if '+' in value_str:
         value_str = value_str.replace('+', '')
     
@@ -49,7 +49,7 @@ def convert_to_float(value):
 
 def process_role_stats(role_stats_path):
     """
-    处理role_stats.csv，将每一行拆成both、ct、t三种
+    处理 role_stats.csv，将每一行拆成 both、ct、t 三种
     返回一个字典，键为"metric_side"格式
     """
     df = pd.read_csv(role_stats_path)
@@ -61,7 +61,7 @@ def process_role_stats(role_stats_path):
         for side in ['Both', 'CT', 'T']:
             value = row[side]
             
-            # 特殊处理Time alive per round
+            # 特殊处理 Time alive per round
             if 'time alive per round' in metric.lower():
                 value = time_to_seconds(value)
             else:
@@ -76,7 +76,7 @@ def process_role_stats(role_stats_path):
 
 def process_right_bottom(right_bottom_path):
     """
-    处理right_bottom.csv
+    处理 right_bottom.csv
     将第一列和第二列拼接作为列名，第三列作为值
     如果第四列是%，说明数据是百分比形式
     """
@@ -110,7 +110,24 @@ def count_missing_values(data_dict):
     return missing_count, total_count
 
 
-def merge_player_data(player_folder_path, year):
+def load_players_rank(year_path, year):
+    """
+    读取 players.csv 获取选手排名
+    返回：{player_name: rank}
+    """
+    players_csv = Path(year_path) / 'players.csv'
+    rank_map = {}
+    if players_csv.exists():
+        df = pd.read_csv(players_csv)
+        for _, row in df.iterrows():
+            name = str(row['name']).strip()
+            order = int(row['order']) if pd.notna(row.get('order')) else None
+            if name and order:
+                rank_map[name.lower()] = order
+    return rank_map
+
+
+def merge_player_data(player_folder_path, year, rank_map=None):
     """
     合并一个选手的数据
     返回：合并后的数据字典和缺失统计
@@ -118,23 +135,27 @@ def merge_player_data(player_folder_path, year):
     player_folder = Path(player_folder_path)
     player_name = player_folder.name
     
-    # 读取meta.json
+    # 读取 meta.json
     meta_path = player_folder / 'meta.json'
     with open(meta_path, 'r', encoding='utf-8') as f:
         meta = json.load(f)
     
-    # 处理role_stats.csv
+    # 处理 role_stats.csv
     role_stats_path = player_folder / 'role_stats.csv'
     role_stats_data = process_role_stats(role_stats_path)
     
-    # 处理right_bottom.csv
+    # 处理 right_bottom.csv
     right_bottom_path = player_folder / 'right_bottom.csv'
     right_bottom_data = process_right_bottom(right_bottom_path)
+    
+    # 获取排名（从 players.csv）
+    rank = rank_map.get(player_name.lower()) if rank_map else None
     
     # 合并所有数据
     merged_data = {
         'player': player_name,
-        'year': year,
+        'year': int(year),
+        'rank': rank,  # 添加排名
         **role_stats_data,
         **right_bottom_data
     }
@@ -164,7 +185,9 @@ def process_all_years(base_path):
         if not processed_data_path.exists():
             continue
         
-        print(f"\n处理 {year} 年数据...")
+        # 读取该年份的选手排名
+        rank_map = load_players_rank(year_folder, year)
+        print(f"\n处理 {year} 年数据... (共{len(rank_map)}名选手)")
         print("=" * 60)
         
         # 遍历所有选手文件夹
@@ -181,20 +204,22 @@ def process_all_years(base_path):
                 continue
             
             try:
-                # 合并数据
-                merged_data, missing_count, total_count = merge_player_data(player_folder, year)
+                # 合并数据（传入排名映射）
+                merged_data, missing_count, total_count = merge_player_data(player_folder, year, rank_map)
                 all_data.append(merged_data)
                 
                 # 记录缺失统计
                 missing_stats.append({
                     'player': player_name,
                     'year': year,
+                    'rank': merged_data.get('rank'),
                     'total_fields': total_count,
                     'missing_fields': missing_count,
                     'missing_rate': f"{missing_count/total_count*100:.2f}%"
                 })
                 
-                print(f"  ✓ {player_name}: {total_count}个字段, {missing_count}个缺失 ({missing_count/total_count*100:.2f}%)")
+                rank_str = f"TOP{merged_data.get('rank', 'N/A')}" if merged_data.get('rank') else 'N/A'
+                print(f"  ✓ {player_name} ({rank_str}): {total_count}个字段，{missing_count}个缺失 ({missing_count/total_count*100:.2f}%)")
             
             except Exception as e:
                 print(f"  ✗ {player_name}: 处理失败 - {e}")
@@ -224,16 +249,16 @@ def main():
     
     print(f"\n" + "=" * 60)
     print(f"所有数据合并完成！")
-    print(f"  总共处理: {len(all_data)} 条记录")
-    print(f"  总列数: {len(df_all.columns)}")
-    print(f"  保存到: {output_all_path}")
+    print(f"  总共处理：{len(all_data)} 条记录")
+    print(f"  总列数：{len(df_all.columns)}")
+    print(f"  保存到：{output_all_path}")
     
     # 保存缺失统计
     df_missing = pd.DataFrame(missing_stats)
     output_missing_path = output_folder / 'missing_data_statistics.csv'
     df_missing.to_csv(output_missing_path, index=False, encoding='utf-8')
     
-    print(f"\n缺失数据统计已保存到: {output_missing_path}")
+    print(f"\n缺失数据统计已保存到：{output_missing_path}")
     print(f"\n缺失数据汇总:")
     print(df_missing.to_string(index=False))
     
